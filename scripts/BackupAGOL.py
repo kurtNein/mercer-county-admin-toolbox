@@ -41,7 +41,7 @@ class BackupAGOL(object):
         gis = GIS('home')
         arcpy.AddMessage("Logged in as " + str(gis.properties.user.username))
 
-        def downloadUserItems(owner, downloadFormat):
+        def downloadUserItems(downloadFormat):
             try:
                 # Search items by username
                 items = gis.content.search(query='owner:*', item_type='Feature *', max_items=50)
@@ -65,7 +65,7 @@ class BackupAGOL(object):
                 print(e)
 
         # Function takes in two parameters. Username and the type of download format
-        downloadUserItems('kcneinstedt@mercercounty.org_mercernj', downloadFormat='File Geodatabase')
+        downloadUserItems(downloadFormat='File Geodatabase')
         return
 
     def postExecute(self, parameters):
