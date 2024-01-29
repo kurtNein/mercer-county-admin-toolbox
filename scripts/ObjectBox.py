@@ -64,7 +64,16 @@ class PointMaker:
         return points_dict
 
     def create_points_fc(self):
-        arcpy.FeatureVerticesToPoints_management(self.in_fc, self.out_fc, 'ALL')
+        try:
+
+            arcpy.FeatureVerticesToPoints_management(self.in_fc, self.out_fc, 'ALL')
+            arcpy.AddMessage(fr'Creating points from {self.in_fc}...')
+            print(fr'Creating points from {self.in_fc}...')
+        except Exception as e:
+            print(e)
+
+    def build_elevation_raster(self):
+        arcpy.IDW_ga(self.out_fc, 'Shape.Z', None, fr'{self.out_fc}_raster')
 
 
 if __name__ == '__main__':
@@ -72,3 +81,4 @@ if __name__ == '__main__':
                        r'\\640gis01\GIS_Data\Publish\Parks\Trails\Trails.gdb\TrailElevations')
 
     point.create_points_fc()
+    point.build_elevation_raster()
