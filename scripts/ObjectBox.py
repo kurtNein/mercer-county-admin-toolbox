@@ -1,4 +1,3 @@
-import arcgis.raster
 import arcpy
 import os
 from arcpy import conversion as cv
