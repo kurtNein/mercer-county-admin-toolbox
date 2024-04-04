@@ -28,8 +28,6 @@ def get_inactive_users(log_csv_path: str, search_user='*'):
     import csv
     import time
 
-    agol_username = 'AdminUser'  # change
-    agol_password = 'userPassword'  # change
     output_csv = r'..\outputs\users.csv'  # change
     search_user = '*'  # change to query individual user
 
