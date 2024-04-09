@@ -31,7 +31,7 @@ def get_inactive_users(log_csv_path: str, search_user='*'):
     output_csv = r'..\outputs\users.csv'  # change
     search_user = '*'  # change to query individual user
 
-    GRACE_PERIOD_DAYS = 90
+    GRACE_PERIOD_DAYS = 60
 
     gis = GIS('home')
 
