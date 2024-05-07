@@ -1,6 +1,7 @@
 import arcpy
 import os
 from arcpy import conversion as cv
+import csv
 
 
 class ConvertGeoPDF:
@@ -80,14 +81,38 @@ class NetTotalChart:
         pass
 
     def build_series(self, feature_class, name_field, net_total_field):
-        from laplist import LapList
-
         with arcpy.da.SearchCursor(feature_class, field_names=[name_field, net_total_field]) as cursor:
+            trails_elevation_dict = {}
+
             for row in cursor:
                 print(row[0], row[1])
+                elevation_list = []
+
                 for each in row[1]:
                     for every in each:
-                        print(every)
+                        elevation = every.Z
+                        elevation_list.append(elevation)
+                    trails_elevation_dict[row[0]] = elevation_list
+            for each in trails_elevation_dict:
+                print(each, trails_elevation_dict[each])
+            return trails_elevation_dict
+
+
+def write_csv_from_dict(output_csv, input_dictionary):
+    for name in input_dictionary:
+
+        output_csv = fr'..\outputs\{name} Trail Elevations.csv'
+        with open(output_csv, 'w', encoding='utf-8') as file:
+            csvfile = csv.writer(file, delimiter=',', lineterminator='\n')
+            for i in range(len(input_dictionary[name])):
+                try:
+                    csvfile.writerow([input_dictionary[name][i]])
+                except Exception as e:
+                    print(e)
+
+def build_net_total_chart():
+    pass
+
 
 if __name__ == '__main__':
     r"""point = PointMaker(r'\\640gis01\GIS_Data\Publish\Parks\Trails\Trails.gdb\Trails',
@@ -98,4 +123,5 @@ if __name__ == '__main__':
 """
 
     ntc = NetTotalChart()
-    ntc.build_series(r'\\640gis01\GIS_Data\Publish\Parks\Trails\Trails.gdb\Trails', 'Name', 'SHAPE@')
+    elevations = ntc.build_series(r'\\640gis01\GIS_Data\Publish\Parks\Trails\640gis01.sde\DBO.MCPC_Trails', 'Name', 'SHAPE@')
+    write_csv_from_dict('asdfsd', elevations)
