@@ -85,9 +85,9 @@ class NetTotalChart:
         with arcpy.da.SearchCursor(feature_class, field_names=[name_field, net_total_field]) as cursor:
             for row in cursor:
                 print(row[0], row[1])
-
-
-
+                for each in row[1]:
+                    for every in each:
+                        print(every)
 
 if __name__ == '__main__':
     r"""point = PointMaker(r'\\640gis01\GIS_Data\Publish\Parks\Trails\Trails.gdb\Trails',
