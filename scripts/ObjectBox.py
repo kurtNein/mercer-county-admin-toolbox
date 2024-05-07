@@ -75,9 +75,27 @@ class PointMaker:
         arcpy.IDW_ga(self.out_fc, 'Shape.Z', None, fr'{self.out_fc}_raster')
 
 
+class NetTotalChart:
+    def __init__(self):
+        pass
+
+    def build_series(self, feature_class, name_field, net_total_field):
+        from laplist import LapList
+
+        with arcpy.da.SearchCursor(feature_class, field_names=[name_field, net_total_field]) as cursor:
+            for row in cursor:
+                print(row[0], row[1])
+
+
+
+
 if __name__ == '__main__':
-    point = PointMaker(r'\\640gis01\GIS_Data\Publish\Parks\Trails\Trails.gdb\Trails',
+    r"""point = PointMaker(r'\\640gis01\GIS_Data\Publish\Parks\Trails\Trails.gdb\Trails',
                        r'\\640gis01\GIS_Data\Publish\Parks\Trails\Trails.gdb\TrailElevations')
 
     point.create_points_fc()
     point.build_elevation_raster()
+"""
+
+    ntc = NetTotalChart()
+    ntc.build_series(r'\\640gis01\GIS_Data\Publish\Parks\Trails\Trails.gdb\Trails', 'Name', 'SHAPE@')
