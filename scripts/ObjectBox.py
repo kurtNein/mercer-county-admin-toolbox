@@ -77,6 +77,8 @@ class PointMaker:
 
 
 class NetTotalChart:
+    # This probably doesn't need to be a class unless we actually retain and use local variables.
+    # Makes it easier to import for an ArcGIS toolbox though.
     def __init__(self):
         pass
 
@@ -84,14 +86,19 @@ class NetTotalChart:
         with arcpy.da.SearchCursor(feature_class, field_names=[name_field, net_total_field]) as cursor:
             trails_elevation_dict = {}
 
+            # Each row in the data is presumed to be one line. Intended use is for trail elevations.
             for row in cursor:
                 print(row[0], row[1])
                 elevation_list = []
 
+                # row[1] is the geometry, which for a line is an array of geometry objects.
                 for each in row[1]:
+                    # Each geometry object, we want to walk through each coordinate.
+                    # For every (coordinate object) in each (geometry in the array) and we can access the Z attribute.
                     for every in each:
                         elevation = every.Z
                         elevation_list.append(elevation)
+                    # We want to return the dictionary where each key's value is that list we appended to.
                     trails_elevation_dict[row[0]] = elevation_list
             for each in trails_elevation_dict:
                 print(each, trails_elevation_dict[each])
@@ -109,6 +116,7 @@ def write_csv_from_dict(output_csv, input_dictionary):
                     csvfile.writerow([input_dictionary[name][i]])
                 except Exception as e:
                     print(e)
+
 
 def build_net_total_chart():
     pass
