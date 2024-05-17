@@ -1,3 +1,7 @@
+"""This is a file meant for generic classes that are not necessarily tools unto themselves.
+For more complete ArcGIS Pro Python Toolbox tools, which get their own file, these classes can be imported.
+Then, an instance of these classes can be used to some effect inside the tool file."""
+
 import arcpy
 import os
 from arcpy import conversion as cv
@@ -34,16 +38,6 @@ class ConvertGeoPDF:
 
             except Exception as e:
                 print(e)
-
-
-r"""
-path = fr"C:\Users\kcneinstedt\Downloads\GeoPDFs\Lawrence"
-
-for folders in os.listdir(path):
-    folder = os.path.join(path, folders)
-    convert = ConvertGeoPDF(folder)
-    convert.convertPDF()
-"""
 
 
 class PointMaker:

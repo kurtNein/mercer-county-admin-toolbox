@@ -1,3 +1,11 @@
+"""This is a Python Toolbox tool object designed to create Polylines in one new Feature Class.
+The Polylines are created using coordinates in a table.
+This assumes that there is a column in the table to determine which rows should belong to each Polyline.
+For example, the table has lat/long as one column, and a Feature column.
+For each record where Feature is A, its coordinates are added to a Polyline A.
+So on for rows of Feature B, C, etc."""
+
+
 import arcpy
 from arcpy import da as da
 import csv
@@ -42,8 +50,6 @@ class CreatePolylinesByAttribute(object):
         """The source code of the tool."""
         arcpy.AddMessage('Imported Tool')
         arcpy.AddMessage(parameters)
-
-        arcpy.env.workspace = r'C:\Users\kcneinstedt\OneDrive - mercercounty.org\Documents\ArcGIS\Projects\MyProject11\MyProject11.gdb'
 
         input_table = parameters[0]
 
